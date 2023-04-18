@@ -14,54 +14,6 @@ def index():
     return "OK"
 
 
-# @app.route('/health_check', methods=['GET'])
-# def health_check():
-#     """
-#     GET req body
-
-#     {
-#         "message": "string:optional",
-#         "time": "float - seconds:required"
-#     }
-
-#     """
-#     started = False
-#     while not started:
-#         try:
-#             connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq"))
-#             started = True
-#         except pika.exceptions.AMQPConnectionError as exc:
-#             print("Failed to connect to RabbitMQ service. Message wont be sent. Waiting for sometime..")
-#             time.sleep(5)
-
-#     # except Exception as e:
-#     #     return str(e)
-    
-#     channel = connection.channel()
-#     channel.queue_declare(queue='health_check', durable=True)
-
-#     # sleep_time = request.json['time']
-#     # .get('time')
-#     # .form.get('time')
-
-#     global TASK_ID_COUNT
-#     request.json['task_id'] = TASK_ID_COUNT
-#     TASK_ID_COUNT += 1
-
-#     print(" [x] Received %r" % request.json)
-
-#     print(" [x] Publishing to health_check queue")
-#     channel.basic_publish(
-#         exchange='',
-#         routing_key='heath_check',
-#         body=json.dumps(request.json),
-#         properties=pika.BasicProperties(
-#             delivery_mode=2,  # make message persistent
-#         ))
-
-#     connection.close()
-#     return " [x] Sent: %s" % json.dumps(request.json)
-
 @app.route('/health_check', methods=['GET'])
 def health_check():
     message = request.args.get('message', '')
@@ -101,44 +53,6 @@ def health_check():
     connection.close()
     return f" [x] Sent: {message}"
 
-# @app.route('/read_db', methods=['GET'])
-# def read_db():
-#     started = False
-#     while not started:
-#         try:
-#             connection = pika.BlockingConnection(pika.ConnectionParameters(host="rabbitmq"))
-#             started = True
-#         except pika.exceptions.AMQPConnectionError as exc:
-#             print("Failed to connect to RabbitMQ service. Message wont be sent. Waiting for sometime..")
-#             time.sleep(5)
-
-#     # except Exception as e:
-#     #     return str(e)
-
-#     channel = connection.channel()
-#     channel.queue_declare(queue='read_db', durable=True)
-
-#     # sleep_time = request.json['time']
-#     # .get('time')
-#     # .form.get('time')
-
-#     global TASK_ID_COUNT
-#     request.json['task_id'] = TASK_ID_COUNT
-#     TASK_ID_COUNT += 1
-
-#     print(" [x] Received %r" % request.json)
-
-#     print(" [x] Publishing to read database queue")
-#     channel.basic_publish(
-#         exchange='',
-#         routing_key='read_db',
-#         body=json.dumps(request.json),
-#         properties=pika.BasicProperties(
-#             delivery_mode=2,  # make message persistent
-#         ))
-
-#     connection.close()
-#     return " [x] Sent: %s" % json.dumps(request.json)
 from flask import request
 
 @app.route('/read_db', methods=['GET'])
